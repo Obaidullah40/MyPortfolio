@@ -1,5 +1,15 @@
 {
   "projects": {
-    "default": "portfolio-client-63524"
-  }
+    "default": "obaidullah-portfolio"
+  },
+  "targets": {
+    "portfolio-client-63524": {
+      "hosting": {
+        "obaidullah": [
+          "obaidullah-portfolio"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

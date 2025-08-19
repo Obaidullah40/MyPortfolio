@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
-import img from "../../assets/obaidullah1.png";
+import img from "../../assets/hero1.png";
 
 const HeroSection = () => {
   const infoItems = [
@@ -93,7 +93,7 @@ const HeroSection = () => {
           {/* Resume + Socials */}
           <div className="flex flex-wrap justify-center md:justify-start items-center gap-4">
             <a
-              href="/resume.pdf"
+              href="/Resume.pdf"
               download
               className="bg-yellow-400 text-gray-900 px-5 py-3 rounded-lg font-semibold shadow-md
                 hover:bg-yellow-300 transition text-sm sm:text-base"
@@ -102,8 +102,8 @@ const HeroSection = () => {
             </a>
             <div className="flex space-x-5 text-2xl">
               {[
-                { icon: <FaGithub />, link: "https://github.com/obaidullh40" },
-                { icon: <FaLinkedin />, link: "https://linkedin.com/in/obaidullh30" },
+                { icon: <FaGithub />, link: "https://github.com/obaidullah40" },
+                { icon: <FaLinkedin />, link: "https://linkedin.com/in/obaidullah30" },
                 { icon: <FaFacebook />, link: "https://facebook.com/obaidullah.40" },
               ].map((item, i) => (
                 <motion.a
@@ -151,7 +151,7 @@ const HeroSection = () => {
           <img
             src={img}
             alt="Muhammad Obaidullah"
-            className="w-40 h-52 sm:w-56 sm:h-72 md:w-72 md:h-[420px] lg:w-80 lg:h-[500px] object-cover rounded-2xl border-4 border-yellow-300 shadow-2xl hover:shadow-yellow-400/50 transition"
+            className="w-56 h-52 sm:w-56 sm:h-72 md:w-72 md:h-[420px] lg:w-[450px] lg:h-[600px] object-cover rounded-2xl border-4 border-yellow-300 shadow-2xl hover:shadow-yellow-400/50 transition"
           />
         </motion.div>
       </div>

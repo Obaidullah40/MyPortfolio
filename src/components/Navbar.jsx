@@ -45,13 +45,13 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between pt-1.5 px-6">
+      <div className="container mx-auto flex items-center justify-between px-6">
         {/* Logo */}
         <motion.h1
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
         >
-            <img className="h-16 animate-pulse" src={Logo} alt="" />
+            <img className="w-20 md:w-28  animate-pulse" src={Logo} alt="" />
         </motion.h1>
 
         {/* Desktop Menu */}
@@ -79,7 +79,7 @@ const Navbar = () => {
 
           {/* Download CV */}
           <motion.a
-            href="/cv.pdf"
+            href="/Resume.pdf"
             download
             whileHover={{ scale: 1.1 }}
             className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-500 transition"
