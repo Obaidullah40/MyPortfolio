@@ -1,4 +1,6 @@
 import { FaFacebook, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import Logo from "../assets/bg-logo.png"
+
 
 const Footer = () => {
   return (
@@ -7,9 +9,7 @@ const Footer = () => {
         
         {/* Brand */}
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 animate-pulse">
-            My<span className="text-primary dark:text-primary-focus">Portfolio</span>
-          </h1>
+          <img className="h-20 animate-pulse" src={Logo} alt="" />
           <p className="text-sm">
             Crafting beautiful and functional web experiences with passion and dedication.
           </p>

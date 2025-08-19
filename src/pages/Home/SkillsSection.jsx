@@ -1,5 +1,5 @@
+import React from "react";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 
 const skills = {
   Frontend: [
@@ -10,98 +10,65 @@ const skills = {
   ],
   Backend: [
     { name: "Node.js", level: 75 },
-    { name: "Express.js", level: 70 },
-    { name: "MongoDB", level: 80 },
+    { name: "Express", level: 70 },
+    { name: "MongoDB", level: 70 },
   ],
   Tools: [
     { name: "Git & GitHub", level: 85 },
     { name: "Firebase", level: 80 },
-    { name: "VS Code", level: 95 },
+    { name: "VS Code", level: 90 },
   ],
-};
-
-const CircularProgress = ({ level, name }) => {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    let start = 0;
-    const timer = setInterval(() => {
-      start += 1;
-      if (start > level) clearInterval(timer);
-      else setProgress(start);
-    }, 20);
-    return () => clearInterval(timer);
-  }, [level]);
-
-  return (
-    <motion.div
-      whileHover={{ scale: 1.1 }}
-      className="flex flex-col items-center"
-    >
-      <div className="relative w-24 h-24">
-        <svg className="w-24 h-24">
-          <circle
-            cx="48"
-            cy="48"
-            r="40"
-            stroke="#e5e7eb"
-            strokeWidth="6"
-            fill="transparent"
-          />
-          <motion.circle
-            cx="48"
-            cy="48"
-            r="40"
-            stroke="#3b82f6"
-            strokeWidth="6"
-            fill="transparent"
-            strokeDasharray={2 * Math.PI * 40}
-            strokeDashoffset={2 * Math.PI * 40 * (1 - progress / 100)}
-            strokeLinecap="round"
-          />
-        </svg>
-        <div className="absolute inset-0 flex items-center justify-center font-semibold">
-          {progress}%
-        </div>
-      </div>
-      <p className="mt-2 text-sm font-medium">{name}</p>
-    </motion.div>
-  );
 };
 
 const SkillsSection = () => {
   return (
-    <section id="skills" className="relative px-3 xs:px-4 sm:px-8 md:px-16 lg:px-24 py-12 xs:py-16 sm:py-20 
-      bg-gradient-to-br from-indigo-600 via-purple-500 to-indigo-500 
-      dark:from-gray-900 dark:via-gray-800 dark:to-black text-gray-100">
-      {/* Title */}
+    <section
+      id="skills"
+      className="py-20 px-6 md:px-16  bg-gradient-to-br from-indigo-600 via-purple-500 to-indigo-500  dark:from-gray-900 dark:via-gray-800 dark:to-black text-white"
+    >
       <motion.h2
-        className="text-4xl font-bold mb-4 text-center"
-        initial={{ opacity: 0, y: -40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        className="text-4xl font-bold text-center mb-12"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
       >
-        My Skills
+        My <span className="text-indigo-600 dark:text-pink-400">Skills</span>
       </motion.h2>
-      <p className="text-center mb-12 max-w-2xl text-lg">
-        I have experience across frontend, backend, and tools that help me build
-        beautiful, scalable, and user-friendly web applications.
-      </p>
 
-      {/* Skills Categories */}
-      <div className="grid md:grid-cols-3 gap-12">
-        {Object.entries(skills).map(([category, skillList]) => (
+      <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+        {Object.entries(skills).map(([category, skillList], index) => (
           <motion.div
             key={category}
-            className="bg-base-200 rounded-2xl p-6 shadow-lg"
-            initial={{ opacity: 0, y: 40 }}
+            className="text-center leading-relaxed text-lg md:text-xl text-white/90 space-y-6"
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.2, duration: 0.6 }}
           >
-            <h3 className="text-xl font-semibold mb-6 text-center">{category}</h3>
-            <div className="grid grid-cols-2 gap-6">
+            <h3 className="text-2xl font-semibold mb-6 text-indigo-600 dark:text-pink-400">
+              {category}
+            </h3>
+            <div className="space-y-5">
               {skillList.map((skill, i) => (
-                <CircularProgress key={i} level={skill.level} name={skill.name} />
+                <div key={i}>
+                  <div className="flex justify-between mb-1">
+                    <span className="text-gray-800 dark:text-gray-200 font-medium">
+                      {skill.name}
+                    </span>
+                    <span className="text-gray-600 dark:text-gray-400 text-sm">
+                      {skill.level}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                    <motion.div
+                      className="h-3 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-500 dark:to-pink-500"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${skill.level}%` }}
+                      transition={{ duration: 1.2, delay: i * 0.15 }}
+                      viewport={{ once: true }}
+                    />
+                  </div>
+                </div>
               ))}
             </div>
           </motion.div>

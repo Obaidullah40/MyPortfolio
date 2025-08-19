@@ -10,6 +10,8 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import DarkModeToggle from "./DarkModeToggle";
 import { Link as ScrollLink } from "react-scroll";
+import Logo from "../assets/bg-logo.png"
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,9 +42,9 @@ const Navbar = () => {
             smooth={true}
             duration={600}
             offset={-70}
-            className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white animate-pulse"
           >
-            My<span className="text-primary dark:text-primary-focus">Portfolio</span>
+            
+            <img className="h-16 animate-pulse" src={Logo} alt="" />
           </ScrollLink>
         </motion.div>
 
