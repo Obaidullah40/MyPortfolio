@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@plugin "daisyui";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Smooth transition for color mode toggle */
+html {
+  scroll-behavior: smooth; /* ✅ Smooth scrolling */
+  transition: background-color 0.3s, color 0.3s;
+}
