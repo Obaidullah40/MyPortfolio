@@ -9,6 +9,7 @@ import {
   FaClock,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { Typewriter } from "react-simple-typewriter";
 import img from "../../assets/obaidullah1.png";
 
 const HeroSection = () => {
@@ -39,7 +40,7 @@ const HeroSection = () => {
         dark:from-gray-900 dark:via-gray-800 dark:to-black
         text-gray-900 dark:text-gray-100 overflow-hidden w-full"
     >
-      {/* Animated Background Glow */}
+      {/* Background Glow */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.15, scale: [1, 1.3, 1] }}
@@ -47,7 +48,7 @@ const HeroSection = () => {
         className="absolute w-[750px] md:w-[950px] h-[750px] md:h-[950px] rounded-full bg-white/10 blur-3xl"
       ></motion.div>
 
-      {/* Content Wrapper */}
+      {/* Content */}
       <div className="w-11/12 md:w-10/12 mx-auto px-4 sm:px-6 lg:px-16 flex flex-col md:flex-row items-center justify-center gap-10">
         {/* Text Content */}
         <motion.div
@@ -59,10 +60,30 @@ const HeroSection = () => {
           <p className="text-indigo-200 font-semibold text-base sm:text-lg">
             🚀 MERN Stack Web Developer
           </p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-white">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
             Hi, I'm{" "}
-            <span className="text-yellow-300">Muhammad Obaidullah</span>
+            <span className="bg-gradient-to-r from-yellow-400 via-pink-400 to-red-400 bg-clip-text text-transparent">
+              Muhammad Obaidullah
+            </span>
           </h1>
+
+          {/* Typing Effect */}
+          <h3 className="text-lg sm:text-xl font-medium text-yellow-300">
+            <Typewriter
+              words={[
+                "Frontend Developer",
+                "MERN Stack Developer",
+                "Freelancer",
+              ]}
+              loop={true}
+              cursor
+              cursorStyle="|"
+              typeSpeed={80}
+              deleteSpeed={50}
+              delaySpeed={1500}
+            />
+          </h3>
+
           <p className="text-gray-100 text-sm sm:text-base md:text-lg max-w-lg mx-auto md:mx-0">
             I build modern, responsive, and accessible web applications using
             React, Node.js, and Firebase. Passionate about clean code and
@@ -74,12 +95,12 @@ const HeroSection = () => {
             <a
               href="/resume.pdf"
               download
-              className="bg-yellow-400 text-gray-900 px-4 sm:px-5 py-2 sm:py-3 rounded-lg font-semibold shadow-md
+              className="bg-yellow-400 text-gray-900 px-5 py-3 rounded-lg font-semibold shadow-md
                 hover:bg-yellow-300 transition text-sm sm:text-base"
             >
               View / Download Resume
             </a>
-            <div className="flex space-x-4 text-xl sm:text-2xl">
+            <div className="flex space-x-5 text-2xl">
               {[
                 { icon: <FaGithub />, link: "https://github.com/obaidullh40" },
                 { icon: <FaLinkedin />, link: "https://linkedin.com/in/obaidullh30" },
@@ -90,7 +111,7 @@ const HeroSection = () => {
                   href={item.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  whileHover={{ scale: 1.3, y: -3 }}
                   whileTap={{ scale: 0.9 }}
                   className="text-white hover:text-yellow-300 transition"
                 >
@@ -101,23 +122,19 @@ const HeroSection = () => {
           </div>
 
           {/* Info Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-8">
             {infoItems.map((item, i) => (
               <motion.div
                 key={i}
-                className="flex items-start gap-3 bg-white/10 p-3 sm:p-4 rounded-lg backdrop-blur-md hover:bg-white/20 transition"
+                className="flex items-start gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-md hover:bg-white/20 hover:shadow-lg transition"
                 whileHover={{ scale: 1.05 }}
               >
-                <span className="text-yellow-300 text-xl sm:text-2xl">
-                  {item.icon}
-                </span>
+                <span className="text-yellow-300 text-2xl">{item.icon}</span>
                 <div>
-                  <h4 className="font-semibold text-white text-sm sm:text-base">
+                  <h4 className="font-semibold text-white text-base">
                     {item.title}
                   </h4>
-                  <p className="text-gray-200 text-xs sm:text-sm">
-                    {item.desc}
-                  </p>
+                  <p className="text-gray-200 text-sm">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -134,7 +151,7 @@ const HeroSection = () => {
           <img
             src={img}
             alt="Muhammad Obaidullah"
-            className="w-40 h-52 sm:w-56 sm:h-72 md:w-72 md:h-[420px] lg:w-80 lg:h-[500px] object-cover rounded-2xl border-4 border-yellow-300 shadow-2xl"
+            className="w-40 h-52 sm:w-56 sm:h-72 md:w-72 md:h-[420px] lg:w-80 lg:h-[500px] object-cover rounded-2xl border-4 border-yellow-300 shadow-2xl hover:shadow-yellow-400/50 transition"
           />
         </motion.div>
       </div>

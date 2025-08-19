@@ -1,60 +1,64 @@
-import { useState } from "react";
-import {
-  FaHome,
-  FaUserAlt,
-  FaBriefcase,
-  FaEnvelope,
-  FaBars,
-  FaTimes,
-} from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
-import DarkModeToggle from "./DarkModeToggle";
+"use client";
+import React, { useState, useEffect } from "react";
 import { Link as ScrollLink } from "react-scroll";
+import { FaBars, FaTimes, FaDownload } from "react-icons/fa";
+import { motion } from "framer-motion";
 import Logo from "../assets/bg-logo.png"
 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const menuItems = [
-    { name: "Home", path: "home", icon: <FaHome /> },
-    { name: "About", path: "about", icon: <FaUserAlt /> },
-    { name: "Projects", path: "projects", icon: <FaBriefcase /> },
-    { name: "Contact", path: "contact", icon: <FaEnvelope /> },
+  // Scroll shadow effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle("dark");
+  };
+
+  const navItems = [
+    { name: "Home", path: "home" },
+    { name: "About", path: "about" },
+    { name: "Skills", path: "skills" },
+    { name: "Projects", path: "projects" },
+    { name: "Contact", path: "contact" },
   ];
 
   return (
     <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      className="bg-gradient-to-br from-indigo-400 via-purple-400 to-indigo-400 dark:from-gray-900 dark:via-gray-800 dark:to-gray-800 text-white shadow-lg fixed top-0 left-0 w-full z-50"
+      initial={{ y: -80 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+      className={`fixed top-0 left-0 w-full z-50 transition-all ${
+        scrolled
+          ? "bg-white/70 dark:bg-gray-900/70 backdrop-blur-md shadow-lg"
+          : "bg-transparent"
+      }`}
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 lg:px-8 py-3">
-        {/* Brand */}
-        <motion.div
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.96 }}
-          className="flex items-center gap-2 cursor-pointer text-gray-900 dark:text-white"
+      <div className="container mx-auto flex items-center justify-between pt-1.5 px-6">
+        {/* Logo */}
+        <motion.h1
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
         >
-          <ScrollLink
-            to="home"
-            smooth={true}
-            duration={600}
-            offset={-70}
-          >
-            
             <img className="h-16 animate-pulse" src={Logo} alt="" />
-          </ScrollLink>
-        </motion.div>
+        </motion.h1>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex gap-6 items-center">
-          {menuItems.map((item, index) => (
+        <div className="hidden md:flex items-center space-x-8">
+          {navItems.map((item, index) => (
             <motion.div
-              key={item.name}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.96 }}
+              key={index}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
@@ -64,75 +68,78 @@ const Navbar = () => {
                 smooth={true}
                 duration={600}
                 offset={-70}
-                className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-800 dark:text-gray-200 hover:bg-primary hover:text-white dark:hover:bg-primary-focus transition duration-300 cursor-pointer"
+                spy={true}
+                activeClass="text-primary dark:text-pink-400 font-semibold border-b-2 border-primary dark:border-pink-400"
+                className="cursor-pointer px-2 py-1 rounded-md text-gray-800 dark:text-gray-200 hover:text-primary dark:hover:text-pink-400 transition"
               >
-                {item.icon} {item.name}
+                {item.name}
               </ScrollLink>
             </motion.div>
           ))}
 
-          {/* Right side (Desktop only) */}
+          {/* Download CV */}
           <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.9 }}
             href="/cv.pdf"
             download
-            className="bg-primary text-white px-4 py-2 rounded-lg shadow-md hover:bg-primary-focus dark:hover:bg-primary-content transition duration-300 whitespace-nowrap"
+            whileHover={{ scale: 1.1 }}
+            className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-500 transition"
           >
-            Download CV
+            <FaDownload /> CV
           </motion.a>
-          <DarkModeToggle />
+
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={toggleDarkMode}
+            className="ml-4 px-3 py-2 rounded-full bg-gray-200 dark:bg-gray-700"
+          >
+            {darkMode ? "🌙" : "☀️"}
+          </button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="flex items-center gap-3 md:hidden">
-          <DarkModeToggle />
+        {/* Mobile Menu Toggle */}
+        <div className="md:hidden">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-2xl text-gray-900 dark:text-gray-200 focus:outline-none"
+            className="text-2xl text-gray-800 dark:text-gray-200"
           >
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Dropdown */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.25 }}
-            className="md:hidden bg-white dark:bg-gray-800 w-full shadow-inner"
-          >
-            <div className="flex flex-col px-4 py-3 space-y-2">
-              {menuItems.map((item) => (
-                <ScrollLink
-                  key={item.name}
-                  to={item.path}
-                  smooth={true}
-                  duration={600}
-                  offset={-70}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-800 dark:text-gray-200 hover:bg-primary hover:text-white dark:hover:bg-primary-focus transition duration-300 cursor-pointer"
-                >
-                  {item.icon} {item.name}
-                </ScrollLink>
-              ))}
-
-              <a
-                href="/cv.pdf"
-                download
+      {/* Mobile Menu */}
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="md:hidden bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg"
+        >
+          <div className="flex flex-col items-center space-y-6 py-6">
+            {navItems.map((item, index) => (
+              <ScrollLink
+                key={index}
+                to={item.path}
+                smooth={true}
+                duration={600}
+                offset={-70}
+                spy={true}
+                activeClass="text-primary dark:text-pink-400 font-semibold border-b-2 border-primary dark:border-pink-400"
                 onClick={() => setIsOpen(false)}
-                className="block bg-primary text-white px-4 py-2 rounded-lg shadow-md hover:bg-primary-focus dark:hover:bg-primary-content transition duration-300 text-center font-semibold"
+                className="cursor-pointer text-gray-800 dark:text-gray-200 hover:text-primary dark:hover:text-pink-400 transition"
               >
-                Download CV
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                {item.name}
+              </ScrollLink>
+            ))}
+            <a
+              href="/cv.pdf"
+              download
+              className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-500 transition"
+            >
+              <FaDownload /> CV
+            </a>
+          </div>
+        </motion.div>
+      )}
     </motion.nav>
   );
 };

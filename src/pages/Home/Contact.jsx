@@ -14,9 +14,14 @@ export default function Contact() {
           transition={{ duration: 0.8 }}
           className="mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-pink-400 to-purple-400">
-            Contact Me
-          </h2>
+              <motion.h2
+                  className="text-5xl font-extrabold text-center drop-shadow-lg relative z-10"
+                  initial={{ opacity: 0, y: -30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  Contact<span className="text-yellow-400"> Me</span>
+          </motion.h2>
           <p className="mt-3 text-lg md:text-xl text-white/80 font-medium">
             Get in touch with me directly
           </p>

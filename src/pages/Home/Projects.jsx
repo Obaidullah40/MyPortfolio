@@ -84,9 +84,14 @@ export default function Projects() {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-12"
                 >
-                    <h2 className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-pink-400 to-purple-400">
-                        My Projects
-                    </h2>
+                    <motion.h2
+                  className="text-5xl font-extrabold text-center drop-shadow-lg relative z-10"
+                  initial={{ opacity: 0, y: -30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  My <span className="text-yellow-400">Projects</span>
+          </motion.h2>
                     <p className="mt-3 text-lg md:text-xl text-white/80 font-medium">
                         A selection of my best work
                     </p>
