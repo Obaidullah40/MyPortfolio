@@ -35,7 +35,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="relative flex items-center min-h-screen
+      className="relative pt-8 flex items-center min-h-screen
         bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 
         dark:from-gray-900 dark:via-gray-800 dark:to-black
         text-gray-900 dark:text-gray-100 overflow-hidden w-full"

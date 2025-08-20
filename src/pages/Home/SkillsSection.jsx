@@ -17,12 +17,12 @@ const skills = {
     { name: "HTML", level: 95, icon: <FaHtml5 className="text-orange-500" /> },
     { name: "CSS", level: 90, icon: <FaCss3Alt className="text-blue-500" /> },
     { name: "JavaScript", level: 85, icon: <FaJs className="text-yellow-400" /> },
-    { name: "React", level: 80, icon: <FaReact className="text-cyan-400" /> },
+    { name: "React", level: 90, icon: <FaReact className="text-cyan-400" /> },
   ],
   Backend: [
-    { name: "Node.js", level: 75, icon: <FaNodeJs className="text-green-500" /> },
-    { name: "Express", level: 70, icon: <SiExpress className="text-gray-300" /> },
-    { name: "MongoDB", level: 70, icon: <SiMongodb className="text-green-400" /> },
+    { name: "Node.js", level: 85, icon: <FaNodeJs className="text-green-500" /> },
+    { name: "Express", level: 80, icon: <SiExpress className="text-gray-300" /> },
+    { name: "MongoDB", level: 80, icon: <SiMongodb className="text-green-400" /> },
   ],
   Tools: [
     { name: "Git & GitHub", level: 85, icon: <FaGithub className="text-gray-200" /> },
