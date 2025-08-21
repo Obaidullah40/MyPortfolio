@@ -1,42 +1,29 @@
 import React, { useState, useEffect } from "react";
 
 export default function DarkModeToggle() {
-  const [isDark, setIsDark] = useState(
-    () => document.documentElement.classList.contains("dark")
-  );
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "dark");
 
-  const toggleDarkMode = () => {
-    if (document.documentElement.classList.contains("dark")) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setIsDark(true);
-    }
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
   };
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      document.documentElement.classList.add("dark");
-      setIsDark(true);
-    } else {
-      document.documentElement.classList.remove("dark");
-      setIsDark(false);
-    }
-  }, []);
+    // Ensure theme is applied on first render
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   return (
     <button
-      onClick={toggleDarkMode}
+      onClick={toggleTheme}
       aria-label="Toggle Dark Mode"
       className="btn btn-circle btn-outline transition-colors duration-300"
-      title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+      title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
     >
-      {isDark ? (
-        // Sun icon for light mode
+      {theme === "dark" ? (
+        // ☀️ Sun icon for light mode
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 text-yellow-400"
@@ -52,7 +39,7 @@ export default function DarkModeToggle() {
           />
         </svg>
       ) : (
-        // Moon icon for dark mode
+        // 🌙 Moon icon for dark mode
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 text-gray-800"
