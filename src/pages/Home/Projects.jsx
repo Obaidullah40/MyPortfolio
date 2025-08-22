@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import BD from "../../assets/blood-donation.png";
 import GL from "../../assets/garilagbe.png";
 import FMP from "../../assets/freelancemarketplace.png";
@@ -9,13 +9,8 @@ const projects = [
         name: "🩸 Blood Donation",
         image: BD,
         techStack: [
-            "React",
-            "Tailwind CSS",
-            "DaisyUI",
-            "Express.js",
-            "MongoDB",
-            "Firebase Auth",
-            "Stripe Payments"
+            "React", "Tailwind CSS", "DaisyUI", "Express.js",
+            "MongoDB", "Firebase Auth", "Stripe Payments",
         ],
         description:
             "A MERN stack web application connecting blood donors with recipients. Features include dashboards, secure authentication, donation management, blogs, and Stripe funding.",
@@ -23,69 +18,210 @@ const projects = [
             "Implementing secure Firebase authentication with JWT verification in the backend.",
             "Designing dependent dropdowns for Division → District → Upazila dynamically.",
             "Handling role-based access control with different dashboards.",
-            "Integrating Stripe securely for donations and ensuring smooth payment flow."
+            "Integrating Stripe securely for donations and ensuring smooth payment flow.",
         ],
         improvements: [
             "Add SMS/email notifications when a donation request is accepted.",
             "Build an AI-powered donor recommendation system (location & blood type).",
             "Add a mobile app version for easier donor access.",
-            "Improve UI animations and accessibility (dark mode, ARIA roles)."
+            "Improve UI animations and accessibility (dark mode, ARIA roles).",
         ],
         liveLink: "https://blood-donation-91267.web.app/",
-        githubLink: "https://github.com/Obaidullah40/blood-donation-client"
+        githubLink: "https://github.com/Obaidullah40/blood-donation-client",
     },
     {
         name: "🚗 GariLagbe",
         image: GL,
-        techStack: ["React", "Tailwind CSS", "DaisyUI", "Express.js", "MongoDB", "Firebase", "JWT", "Axios"],
+        techStack: [
+            "React", "Tailwind CSS", "DaisyUI", "Express.js",
+            "MongoDB", "Firebase", "JWT", "Axios",
+        ],
         description:
             "Full-stack car rental & job platform. Users can browse, book, and manage cars; recruiters can post jobs and track applicants. Features Firebase auth, JWT-secured APIs, and responsive UI.",
         challenges: [
             "Integrating Firebase auth with backend JWT verification.",
             "Managing tokens in HTTP-only cookies securely.",
-            "Designing dynamic dashboards for different roles."
+            "Designing dynamic dashboards for different roles.",
         ],
         improvements: [
             "Add advanced analytics dashboards for admins.",
             "Implement real-time booking availability with socket.io.",
-            "Integrate payment gateway (Stripe) for bookings."
+            "Integrate payment gateway (Stripe) for bookings.",
         ],
         liveLink: "https://assignment-11-garilagbe.web.app",
-        githubLink: "https://github.com/Obaidullah40/GariLagbe-client"
+        githubLink: "https://github.com/Obaidullah40/GariLagbe-client",
     },
     {
         name: "Freelance Task Marketplace",
         image: FMP,
-        techStack: ["React", "Tailwind CSS", "DaisyUI", "Firebase Auth", "Node.js", "Express.js", "MongoDB"],
+        techStack: [
+            "React", "Tailwind CSS", "DaisyUI", "Firebase Auth",
+            "Node.js", "Express.js", "MongoDB",
+        ],
         description:
             "Full-stack freelance marketplace where users can post, browse, and bid on tasks. Includes authentication, role-based access, and CRUD operations.",
         challenges: [
             "Integrating Firebase auth with private routes.",
-            "Handling MongoDB queries securely for user-specific tasks."
+            "Handling MongoDB queries securely for user-specific tasks.",
         ],
         improvements: [
             "Add secure payment gateway (Stripe).",
             "Implement user profile system and review/rating features.",
-            "Real-time notifications for bids or updates."
+            "Real-time notifications for bids or updates.",
         ],
         liveLink: "https://a10-freelancemarketplace.web.app/",
-        githubLink: "https://github.com/your-username/freelance-task-marketplace"
-    }
+        githubLink: "https://github.com/your-username/freelance-task-marketplace",
+    },
 ];
 
-export default function Projects() {
+const About = () => {
+    const canvasRef = useRef(null);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const project = selectedIndex !== null ? projects[selectedIndex] : null;
 
-    const prevProject = () => setSelectedIndex((selectedIndex - 1 + projects.length) % projects.length);
-    const nextProject = () => setSelectedIndex((selectedIndex + 1) % projects.length);
+    const prevProject = () =>
+        setSelectedIndex((selectedIndex - 1 + projects.length) % projects.length);
+    const nextProject = () =>
+        setSelectedIndex((selectedIndex + 1) % projects.length);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d");
+        let particlesArray = [];
+        const numberOfParticles = 70;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const mouse = { x: null, y: null };
+        window.addEventListener("mousemove", (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        const colors = [
+            "rgba(99,102,241,0.8)", // indigo-500
+            "rgba(168,85,247,0.8)", // purple-500
+            "rgba(236,72,153,0.8)", // pink-500
+        ];
+
+        class Particle {
+            constructor(x, y, size, color, speedX, speedY) {
+                this.x = x;
+                this.y = y;
+                this.size = size;
+                this.baseSize = size;
+                this.color = color;
+                this.speedX = speedX;
+                this.speedY = speedY;
+                this.opacity = Math.random() * 0.5 + 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+
+                // repel effect
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 120) {
+                    this.x -= dx / 20;
+                    this.y -= dy / 20;
+                }
+
+                // pulse effect
+                this.size = this.baseSize + Math.sin(Date.now() / 500 + this.x) * 1.2;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        const init = () => {
+            particlesArray = [];
+            for (let i = 0; i < numberOfParticles; i++) {
+                const size = Math.random() * 2 + 1.5;
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const speedX = (Math.random() - 0.5) * 0.7;
+                const speedY = (Math.random() - 0.5) * 0.7;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particlesArray.push(new Particle(x, y, size, color, speedX, speedY));
+            }
+        };
+
+        const connectParticles = () => {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    const dx = particlesArray[a].x - particlesArray[b].x;
+                    const dy = particlesArray[a].y - particlesArray[b].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 130) {
+                        const gradient = ctx.createLinearGradient(
+                            particlesArray[a].x,
+                            particlesArray[a].y,
+                            particlesArray[b].x,
+                            particlesArray[b].y
+                        );
+                        gradient.addColorStop(0, particlesArray[a].color);
+                        gradient.addColorStop(1, particlesArray[b].color);
+
+                        ctx.beginPath();
+                        ctx.strokeStyle = gradient;
+                        ctx.lineWidth = 0.6;
+                        ctx.globalAlpha = 0.6 - distance / 130;
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                        ctx.closePath();
+                        ctx.globalAlpha = 1;
+                    }
+                }
+            }
+        };
+
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach((p) => {
+                p.update();
+                p.draw();
+            });
+            connectParticles();
+            requestAnimationFrame(animate);
+        };
+
+        init();
+        animate();
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+    }, []);
 
     return (
         <section
             id="projects"
-            className="relative bg-gradient-to-tr from-indigo-600 via-purple-500 to-indigo-500 dark:from-gray-900 dark:via-gray-800 dark:to-black py-24 text-white"
+            className="relative bg-gradient-to-tr from-indigo-600 via-purple-500 to-indigo-500 dark:from-gray-900 dark:via-gray-800 dark:to-black py-24 text-white overflow-hidden"
         >
-            <div className="w-10/12 mx-auto px-4">
+            {/* Canvas Background */}
+            <canvas
+                ref={canvasRef}
+                className="absolute inset-0 w-full h-full pointer-events-none"
+            />
+
+            <div className="relative z-10 w-10/12 mx-auto px-4">
                 {/* Heading */}
                 <motion.div
                     className="text-center mb-12"
@@ -102,11 +238,14 @@ export default function Projects() {
                     >
                         My <span className="text-yellow-400">Projects</span>
                     </motion.h2>
-                    <p className="mt-3 text-lg md:text-xl text-white/80 font-medium">A selection of my best work</p>
+                    <p className="mt-3 text-lg md:text-xl text-white/80 font-medium">
+                        A selection of my best work
+                    </p>
                     <div className="mt-4 w-24 h-1 mx-auto rounded-full bg-yellow-300/70" />
                 </motion.div>
 
                 {/* Projects Grid */}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.map((proj, idx) => (
                         <motion.div
@@ -172,23 +311,16 @@ export default function Projects() {
 
                                 {/* Right: Project Details */}
                                 <div className="flex flex-col w-full md:w-1/2 overflow-y-auto">
-                                    {/* Project Name */}
                                     <h3 className="text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 via-pink-500 to-purple-500">
                                         {project.name}
                                     </h3>
-
-                                    {/* Swipe Hint */}
                                     <p className="text-center text-gray-500 dark:text-gray-400 text-sm mb-4 md:mb-6 md:text-left">
                                         ⬅️ Swipe left/right on mobile to navigate ➡️
                                     </p>
-
-                                    {/* Description */}
                                     <div className="mb-4 text-gray-800 dark:text-gray-200">
                                         <h4 className="font-semibold mb-1">Description:</h4>
                                         <p>{project.description}</p>
                                     </div>
-
-                                    {/* Challenges */}
                                     <div className="mb-4 text-gray-800 dark:text-gray-200">
                                         <h4 className="font-semibold mb-1">Challenges:</h4>
                                         <ul className="list-disc list-inside space-y-1">
@@ -197,8 +329,6 @@ export default function Projects() {
                                             ))}
                                         </ul>
                                     </div>
-
-                                    {/* Future Improvements */}
                                     <div className="mb-4 text-gray-800 dark:text-gray-200">
                                         <h4 className="font-semibold mb-1">Future Improvements:</h4>
                                         <ul className="list-disc list-inside space-y-1">
@@ -207,8 +337,6 @@ export default function Projects() {
                                             ))}
                                         </ul>
                                     </div>
-
-                                    {/* Tech Stack */}
                                     <div className="flex flex-wrap gap-2 mb-6">
                                         {project.techStack.map((tech, idx) => (
                                             <span
@@ -219,8 +347,6 @@ export default function Projects() {
                                             </span>
                                         ))}
                                     </div>
-
-                                    {/* Navigation & Links */}
                                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                                         <div className="flex gap-2">
                                             <button
@@ -258,8 +384,9 @@ export default function Projects() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-
             </div>
         </section>
     );
-}
+};
+
+export default About;
